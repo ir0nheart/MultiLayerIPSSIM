@@ -1,0 +1,12 @@
+        !COMPILER-GENERATED INTERFACE MODULE: Wed Jan 09 01:47:25 2019
+        MODULE READIF__genmod
+          INTERFACE 
+            SUBROUTINE READIF(KUU,NFB,INTFIL,ERRCIO,CHERIN)
+              INTEGER(KIND=4) :: KUU
+              INTEGER(KIND=4) :: NFB
+              CHARACTER(LEN=1000) :: INTFIL
+              CHARACTER(LEN=80) :: ERRCIO
+              CHARACTER(LEN=80) ,OPTIONAL :: CHERIN(10)
+            END SUBROUTINE READIF
+          END INTERFACE 
+        END MODULE READIF__genmod

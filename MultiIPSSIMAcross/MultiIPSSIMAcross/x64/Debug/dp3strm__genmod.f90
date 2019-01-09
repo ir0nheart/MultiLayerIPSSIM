@@ -1,0 +1,9 @@
+        !COMPILER-GENERATED INTERFACE MODULE: Wed Jan 09 01:47:24 2019
+        MODULE DP3STRM__genmod
+          INTERFACE 
+            FUNCTION DP3STRM(DPAF)
+              REAL(KIND=8) :: DPAF(5)
+              CHARACTER(LEN=77) :: DP3STRM
+            END FUNCTION DP3STRM
+          END INTERFACE 
+        END MODULE DP3STRM__genmod

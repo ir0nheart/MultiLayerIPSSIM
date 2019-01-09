@@ -1,0 +1,7 @@
+        !COMPILER-GENERATED INTERFACE MODULE: Wed Jan 09 01:47:25 2019
+        MODULE INDAT0__genmod
+          INTERFACE 
+            SUBROUTINE INDAT0
+            END SUBROUTINE INDAT0
+          END INTERFACE 
+        END MODULE INDAT0__genmod

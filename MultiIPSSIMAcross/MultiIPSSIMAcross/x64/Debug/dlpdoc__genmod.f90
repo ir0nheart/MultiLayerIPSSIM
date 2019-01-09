@@ -1,0 +1,7 @@
+        !COMPILER-GENERATED INTERFACE MODULE: Tue Jan 08 23:00:20 2019
+        MODULE DLPDOC__genmod
+          INTERFACE 
+            SUBROUTINE DLPDOC
+            END SUBROUTINE DLPDOC
+          END INTERFACE 
+        END MODULE DLPDOC__genmod

@@ -1,0 +1,7 @@
+        !COMPILER-GENERATED INTERFACE MODULE: Wed Jan 09 01:47:25 2019
+        MODULE FOPEN__genmod
+          INTERFACE 
+            SUBROUTINE FOPEN
+            END SUBROUTINE FOPEN
+          END INTERFACE 
+        END MODULE FOPEN__genmod

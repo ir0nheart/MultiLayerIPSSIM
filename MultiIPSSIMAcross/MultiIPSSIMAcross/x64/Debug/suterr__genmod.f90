@@ -1,0 +1,11 @@
+        !COMPILER-GENERATED INTERFACE MODULE: Wed Jan 09 01:47:24 2019
+        MODULE SUTERR__genmod
+          INTERFACE 
+            SUBROUTINE SUTERR(ERRCOD,CHERR,INERR,RLERR)
+              CHARACTER(LEN=80) :: ERRCOD
+              CHARACTER(LEN=80) :: CHERR(10)
+              INTEGER(KIND=4) :: INERR(10)
+              REAL(KIND=8) :: RLERR(10)
+            END SUBROUTINE SUTERR
+          END INTERFACE 
+        END MODULE SUTERR__genmod

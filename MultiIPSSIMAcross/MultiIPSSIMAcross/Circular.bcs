@@ -1,0 +1,39 @@
+# Schedule name 
+'Circular'
+# 
+# TIME STEP 290 --de  Activate nodes 
+# Dataset 2: identifier and counts 
+# BCSID NSOP1 NSOU1 NPBC1 NUBC1 
+ 'ts290' 2 0 0 0 
+# Dataset 3: fluid sources/sinks 
+# IQCP1 QINC1  UINC1 
+127119 1.32650000000000E-0001  3.00000000000000E-0002
+-127171
+0
+# 
+# TIME STEP 394 --de  Activate nodes 
+# Dataset 2: identifier and counts 
+# BCSID NSOP1 NSOU1 NPBC1 NUBC1 
+ 'ts394' 1 0 0 0 
+# Dataset 3: fluid sources/sinks 
+# IQCP1 QINC1  UINC1 
+-127119
+0
+# 
+# TIME STEP 400 --  Activate nodes 
+# Dataset 2: identifier and counts 
+# BCSID NSOP1 NSOU1 NPBC1 NUBC1 
+ 'ts400' 1 0 0 0 
+# Dataset 3: fluid sources/sinks 
+# IQCP1 QINC1  UINC1 
+127062 1.42125000000000E-0001  3.00000000000000E-0002
+0
+# 
+# TIME STEP 605 --de  Activate nodes 
+# Dataset 2: identifier and counts 
+# BCSID NSOP1 NSOU1 NPBC1 NUBC1 
+ 'ts605' 1 0 0 0 
+# Dataset 3: fluid sources/sinks 
+# IQCP1 QINC1  UINC1 
+-127062
+0

@@ -1,0 +1,12 @@
+        !COMPILER-GENERATED INTERFACE MODULE: Wed Jan 09 01:47:23 2019
+        MODULE PRSWDS__genmod
+          INTERFACE 
+            SUBROUTINE PRSWDS(STRING,DELIM,NWMAX,WORD,NWORDS)
+              INTEGER(KIND=4) :: NWMAX
+              CHARACTER(*) :: STRING
+              CHARACTER(LEN=1) :: DELIM
+              CHARACTER(*) :: WORD(NWMAX)
+              INTEGER(KIND=4) :: NWORDS
+            END SUBROUTINE PRSWDS
+          END INTERFACE 
+        END MODULE PRSWDS__genmod
