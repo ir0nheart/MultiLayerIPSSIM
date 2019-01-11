@@ -13,7 +13,8 @@
      6   GGRADX, GGRADY, GGRADZ
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE ::                     ALLARR........1500
      1   PVEC, UVEC                                                      ALLARR........1600
-
+      DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE ::                     ALLARR........1500
+     1   EFFSTR1, RUNOD1                                                      ALLARR........1600
 
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE ::                     ALLARR........1700
      1   ALMAX, ALMIN, ATMAX, ATMIN, VMAG, VANG1,                        ALLARR........1800
@@ -119,11 +120,13 @@ C.....EXPLICIT INTERFACE FOR FUNCTION PUSWF                              EXPINT.
       END INTERFACE                                                      EXPINT........4100
 C                                                                        EXPINT........4200
       INTERFACE                                                          EXPINT........3000
-         FUNCTION PUSWFM(L,XLOC,YLOC,ZLOC,SFRAC,PM1,UM1,                EXPINT........3100
-     1      PVEC,EFFSTR,RUNOD,UVEC,CNUB,CNUBM1,IN,LREG,Z,TOTSTR)                                                     EXPINT........3200
-            DOUBLE PRECISION PUSWFM(5),XLOC,YLOC,ZLOC,SFRAC,Z               EXPINT........3300
+         FUNCTION PUSWFM(L,XLOC,YLOC,ZLOC,SFRAC,PM1,UM1,                 EXPINT........3100
+     1      PVEC,EFFSTR,RUNOD,UVEC,CNUB,CNUBM1,IN,LREG,Z,TOTSTR,
+     2      EFFSTR1,RUNOD1)                                              EXPINT........3200
+            DOUBLE PRECISION PUSWFM(5),XLOC,YLOC,ZLOC,SFRAC,Z            EXPINT........3300
             DOUBLE PRECISION PM1(NN),UM1(NN),PVEC(NN),UVEC(NN),CNUB(NN),
-     2                       CNUBM1(NN),EFFSTR(NN),RUNOD(NN),TOTSTR(NN)                                EXPINT........3400
+     1      CNUBM1(NN),EFFSTR(NN),RUNOD(NN),TOTSTR(NN),EFFSTR1(NN),
+     2      RUNOD1(NN)                                                   EXPINT........3400
             INTEGER L,IN(NIN),LREG(NE)                                   EXPINT........3500
             INTEGER NN,NE,NIN,NBI,NCBI,NB,NBHALF,NPBC,NUBC,              EXPINT........3600
      1         NSOP,NSOU,NBCN                                            EXPINT........3700

@@ -874,7 +874,8 @@ C.....ALLOCATE REAL ARRAYS, EXCEPT THOSE THAT DEPEND ON BANDWIDTH        SUTRA_M
      2   CS1(NN),CS2(NN),CS3(NN),SW(NN),DSWDP(NN),RHO(NN),SOP(NN),       SUTRA_MAIN...77600
      3   QIN(NN),UIN(NN),QUIN(NN),QINITR(NN),RCIT(NN),RCITM1(NN),        SUTRA_MAIN...77700
      4   SWT(NN),CNUB(NN),CNUBM1(NN),SWB(NN),RELK(NN),RELKB(NN),
-     5   RELKT(NN),EFFSTR(NN),RUNOD(NN),TOTSTR(NN))                                                         ! SWT,SWB,CNUB(nu term for mole of oxygen), CNUBM1  were added
+     5   RELKT(NN),EFFSTR(NN),RUNOD(NN),TOTSTR(NN),
+     6   EFFSTR1(NN),RUNOD1(NN))                                                         ! SWT,SWB,CNUB(nu term for mole of oxygen), CNUBM1  were added
       ALLOCATE(GGRADX(NE),GGRADY(NE),GGRADZ(NE))
       DO 4569 vK=1,NE
       GGRADX(vK)=0.D0
@@ -1184,7 +1185,8 @@ C.....CALL MAIN CONTROL ROUTINE, SUTRA                                   SUTRA_M
      7   IA,JA,IBCPBC,IBCUBC,IBCSOP,IBCSOU,IIDPBC,IIDUBC,IIDSOP,IIDSOU,  SUTRA_MAIN..107100
      8   IQSOPT,IQSOUT,IPBCT,IUBCT,BCSFL,BCSTR,CNUB,CNUBM1,SWB,RELK,
      9   TT1,TT2,TT3,TT4,TT5,TT6,TT7,TT8,TT9,GGRADX,GGRADY,GGRADZ,
-     1  UWSOIL,TOPLAYER,BOTTOMLAYER,TOTSTR,ADDTOTSTR)                                                       SUTRA_MAIN..107200  !CNUB, CNUBM1,SWB added
+     1   UWSOIL,TOPLAYER,BOTTOMLAYER,TOTSTR,ADDTOTSTR,WATTAB,EFFSTR1,
+     2   RUNOD1)                                                        SUTRA_MAIN..107200  !CNUB, CNUBM1,SWB added
 
                                    
 C                                                                        SUTRA_MAIN..107300
@@ -2664,7 +2666,7 @@ C                                                                        BUDGET.
       SUBROUTINE BUDGET(ML,IBCT,VOL,SW,SWT,DSWDP,RHO,SOP,QIN,PVEC,PM1,   BUDGET.........700!SWT added
      1   DPDTITR,PBC,QPLITR,IPBC,IQSOP,POR,UVEC,UM1,UM2,UIN,QUIN,QINITR, BUDGET.........800
      2   IQSOU,UBC,IUBC,CS1,CS2,CS3,SL,SR,NREG,GNUP1,GNUU1,              BUDGET.........900
-     3   IBCSOP,IBCSOU,CNUB,RELKT,SWB,RELK,RELKB)                              BUDGET........1000!CNUB, RELKT,SWB added
+     3   IBCSOP,IBCSOU,CNUB,RELKT,SWB,RELK,RELKB)                        BUDGET........1000!CNUB, RELKT,SWB added
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)                                BUDGET........1100
       CHARACTER*10 ADSMOD                                                BUDGET........1200
       CHARACTER*13 ULABL(2)                                              BUDGET........1300
@@ -4781,8 +4783,8 @@ C........SET UNIT NUMBERS K1 - K13.  (K00 HAS BEEN SET PREVIOUSLY.)      FOPEN..
          
           OPEN(UNIT=KAUX,FILE="EFFSTR.nod",STATUS='REPLACE',            FOPEN........30000
      1           FORM='FORMATTED', IOSTAT=KERR)
-          OPEN(UNIT=KGRADIENT,FILE="GRADIENTS.txt",STATUS='REPLACE',            FOPEN........30000
-     1           FORM='FORMATTED', IOSTAT=KERR)
+C          OPEN(UNIT=KGRADIENT,FILE="GRADIENTS.txt",STATUS='REPLACE',    FOPEN........30000
+C     1           FORM='FORMATTED', IOSTAT=KERR)
           OPEN(UNIT=KPROP,FILE="props.inp",STATUS='OLD',                FOPEN........30000
      1           FORM='FORMATTED', IOSTAT=KERR)
           OPEN(UNIT=KNODEL,FILE="mynodefile.txt",STATUS='OLD',            FOPEN........30000
@@ -10002,7 +10004,7 @@ C ***  SATURATIONS IN A COLUMNWISE FORMAT.                               OUTOBS.
 C                                                                        OUTOBS.........700
       SUBROUTINE OUTOBS(NFLO,OBSPTS,TIME,STEP,PM1,UM1,PVEC,UVEC,         OUTOBS.........800
      1   TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR,CNUB,CNUBM1,EFFSTR,RUNOD,
-     2 TOTSTR)                                                           OUTOBS.........900
+     2 TOTSTR,EFFSTR1,RUNOD1)                                                           OUTOBS.........900
       USE ALLARR, ONLY : OBSDAT                                          OUTOBS........1000
       USE LLDEF                                                          OUTOBS........1100
       USE EXPINT                                                         OUTOBS........1200
@@ -10020,7 +10022,7 @@ C                                                                        OUTOBS.
       LOGICAL BCSFL(0:ITMAX),BCSTR(0:ITMAX)                              OUTOBS........2400
       DIMENSION PM1(NNVEC),UM1(NNVEC),PVEC(NNVEC),UVEC(NNVEC),
      1           CNUB(NNVEC),CNUBM1(NNVEC),EFFSTR(NNVEC),RUNOD(NNVEC),
-     2  TOTSTR(NNVEC)                !EFFSTR added               OUTOBS........2500
+     2  TOTSTR(NNVEC),EFFSTR1(NNVEC),RUNOD1(NNVEC)                !EFFSTR added               OUTOBS........2500
       DIMENSION IN(NIN),LREG(NE)                                         OUTOBS........2600
       DIMENSION KTYPE(2)                                                 OUTOBS........2700
       TYPE (OBSDAT), DIMENSION (NOBSN) :: OBSPTS                         OUTOBS........2800
@@ -10363,7 +10365,7 @@ C.....WRITE OBSERVATIONS.                                                OUTOBS.
      2         OBSPTS(JSET(JJ))%XSI,OBSPTS(JSET(JJ))%ETA,                OUTOBS.......36300
      3         OBSPTS(JSET(JJ))%ZET,SFRAC,PM1,UM1,                       OUTOBS.......36400
      4         PVEC,EFFSTR,RUNOD,UVEC,CNUB,CNUBM1,IN,LREG,
-     5         OBSPTS(JSET(JJ))%Z,TOTSTR)),JJ=1,JLOAD)                 !EFFSTRESS added                      OUTOBS.......36500
+     5         OBSPTS(JSET(JJ))%Z,TOTSTR,EFFSTR1,RUNOD1)),JJ=1,JLOAD)                 !EFFSTRESS added                      OUTOBS.......36500
 
           ELSE                                                            OUTOBS.......36600
             WRITE(FRMT,"(A,I9,A)") "(33X,",JLOAD,"(:3X,A))"              OUTOBS.......36700
@@ -10371,7 +10373,7 @@ C.....WRITE OBSERVATIONS.                                                OUTOBS.
      1         OBSPTS(JSET(JJ))%XSI,OBSPTS(JSET(JJ))%ETA,                OUTOBS.......36900
      2         OBSPTS(JSET(JJ))%ZET,SFRAC,PM1,UM1,                       OUTOBS.......37000
      3         PVEC,EFFSTR,RUNOD,UVEC,CNUB,CNUBM1,IN,LREG,
-     4         OBSPTS(JSET(JJ))%Z,TOTSTR)),JJ=1,JLOAD)       !EFFSTRESS added                   OUTOBS.......37100
+     4         OBSPTS(JSET(JJ))%Z,TOTSTR,EFFSTR1,RUNOD1)),JJ=1,JLOAD)       !EFFSTRESS added                   OUTOBS.......37100
 
          END IF                                                          OUTOBS.......37200
       END DO                                                             OUTOBS.......37300
@@ -10865,11 +10867,11 @@ C                                                                        PUSWF..
 C                                                                        PUSWF.........4100
 
       FUNCTION PUSWFM(L,XLOC,YLOC,ZLOC,SFRAC,PM1,UM1,PVEC,EFFSTR,RUNOD,
-     2               UVEC,CNUB,CNUBM1,IN,LREG,Z,TOTSTR)                                     PUSWF..........800
+     2               UVEC,CNUB,CNUBM1,IN,LREG,Z,TOTSTR,EFFSTR1,RUNOD1)                                     PUSWF..........800
       IMPLICIT DOUBLE PRECISION (A-H, O-Z)                               PUSWF..........900
       DIMENSION PUSWFM(5)                                                 PUSWF.........1000
       DIMENSION PM1(NN),UM1(NN),PVEC(NN),UVEC(NN),CNUB(NN),CNUBM1(NN)                                            !EFFSTRESS ADDED              PUSWF.........1100
-      DIMENSION EFFSTR(NN),RUNOD(NN),TOTSTR(NN)
+      DIMENSION EFFSTR(NN),RUNOD(NN),TOTSTR(NN),EFFSTR1(NN),RUNOD1(NN)
       DIMENSION IN(NIN),LREG(NE)                                         PUSWF.........1200
       DIMENSION KTYPE(2)                                                 PUSWF.........1300
       COMMON /CONTRL/ GNUP,GNUU,UP,DTMULT,DTMAX,ME,ISSFLO,ISSTRA,ITCYC,  PUSWF.........1400
@@ -10886,7 +10888,7 @@ C.....EVALUATE P AND U AT PREVIOUS AND CURRENT TIME STEPS                PUSWF..
 !      CALL PUM(L,XLOC,YLOC,ZLOC,PVEC,UVEC,CNUB,IN,P2,U2,C2,Z,ES2,ESI2,
 !     1          XPP2)
       CALL PUM(L,XLOC,YLOC,ZLOC,PM1,UM1,CNUBM1,IN,P1,U1,C1,Z,
-     2 EFFSTR,RUNOD,ES1,R1,TOTSTR)                                                       PUSWF.........2100
+     2 EFFSTR1,RUNOD1,ES1,R1,TOTSTR)                                                       PUSWF.........2100
       CALL PUM(L,XLOC,YLOC,ZLOC,PVEC,UVEC,CNUB,IN,P2,U2,C2,Z,
      2 EFFSTR,RUNOD,ES2,R2,TOTSTR)
 
@@ -10946,7 +10948,7 @@ C                                                                        READIF.
       COMMON /FUNIB/ NFBCS                                               READIF........2400
       COMMON /FUNITA/ IUNIT                                              READIF........2500
       COMMON /FUNITS/ K00,K0,K1,K2,K3,K4,K5,K6,K7,K8,K9,                 READIF........2600
-     1   K10,K11,K12,K13,KAUX,KGRADIENT                                                 READIF........2700
+     1   K10,K11,K12,K13,KAUX,KGRADIENT                                  READIF........2700
       COMMON /OBS/ NOBSN,NTOBS,NOBCYC,NOBLIN,NFLOMX                      READIF........2800
 C                                                                        READIF........2900
 C.....COPY ERRCIO INTO ERRCOD AND ARRAY CHERIN (IF PRESENT AS AN         READIF........3000
@@ -13042,7 +13044,8 @@ C                                                                        SUTRA..
      7   IA,JA,IBCPBC,IBCUBC,IBCSOP,IBCSOU,IIDPBC,IIDUBC,IIDSOP,IIDSOU,  SUTRA.........1500
      8   IQSOPT,IQSOUT,IPBCT,IUBCT,BCSFL,BCSTR,CNUB,CNUBM1,SWB,RELK,
      9   TT1,TT2,TT3,TT4,TT5,TT6,TT7,TT8,TT9,GGRADX,GGRADY,GGRADZ,
-     1   UWSOIL,TOPLAYER,BOTTOMLAYER,TOTSTR,ADDTOTSTR)                                                           !alden changed "SBW" typo to "SWB"   SUTRA.........1600 ! CNUB, CNUBM1,SWB added
+     1   UWSOIL,TOPLAYER,BOTTOMLAYER,TOTSTR,ADDTOTSTR,WATTAB,EFFSTR1,
+     2   RUNOD1)                                                           !alden changed "SBW" typo to "SWB"   SUTRA.........1600 ! CNUB, CNUBM1,SWB added
       USE ALLARR, ONLY : OBSDAT,CIDBCS                                   SUTRA.........1700
       USE LLDEF                                                          SUTRA.........1800
       USE EXPINT                                                         SUTRA.........1900
@@ -13074,7 +13077,8 @@ C                                                                        SUTRA..
      2   CS1(NN),CS2(NN),CS3(NN),SW(NN),DSWDP(NN),RHO(NN),SOP(NN),       SUTRA.........4300
      3   QIN(NN),QINITR(NN),UIN(NN),QUIN(NN),RCIT(NN),RCITM1(NN),        SUTRA.........4400
      4   SWT(NN),CNUB(NN),CNUBM1(NN),SWB(NN),RELK(NN),RELKB(NN),         ! SWT(NN) CNUB(NN) CNUBM1(NN)and SWB(NN) added
-     5   RELKT(NN),EFFSTR(NN),RUNOD(NN),TOTSTR(NN)
+     5   RELKT(NN),EFFSTR(NN),RUNOD(NN),TOTSTR(NN),RUNOD1(NN),
+     6   EFFSTR1(NN)
       DIMENSION GGRADX(NE),GGRADY(NE),GGRADZ(NE)
       DIMENSION PVEC(NNVEC),UVEC(NNVEC)                                  SUTRA.........4500
       DIMENSION TT1(NN),TT2(NN),TT3(NN),TT4(NN),TT5(NN),TT6(NN),
@@ -13271,9 +13275,11 @@ C........PRINT TO LST OUTPUT FILE                                        SUTRA..
 33661     CONTINUE
          
            DO 3366 I=1,NN
-          TOTSTR(I) = TOTSTR(I)+ADDTOTSTR
-           EFFSTR(I)=TOTSTR(I)+Z(I)*9810
+           TOTSTR(I) = TOTSTR(I)+ADDTOTSTR
+           EFFSTR(I)=TOTSTR(I)+(Z(I)-WATTAB)*9810
            RUNOD(I)=1.D0
+           EFFSTR1(I) = EFFSTR(I)
+           RUNOD1(I) = RUNOD(I)
  3366      CONTINUE
           
 C........IF TRANSIENT FLOW, PRINT TO NODEWISE AND OBSERVATION OUTPUT     SUTRA........20700
@@ -13292,7 +13298,7 @@ C           SOLUTION IS COMPUTED.)                                       SUTRA..
                      TIME = TSEC                                           ! seda
                      CALL OUTOBS(NFLO,OBSPTS,TIME,DIT,PM1,UM1,             ! seda  SUTRA........21600
      1                  PVEC,UVEC,TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR,     SUTRA........21700
-     2                  CNUB,CNUBM1,EFFSTR,RUNOD,TOTSTR)
+     2                  CNUB,CNUBM1,EFFSTR,RUNOD,TOTSTR,EFFSTR1,RUNOD1)
                   ELSE                                                   SUTRA........21800
                      CALL OUTOBC(NFLO,OBSPTS,TIME,DIT,PM1,UM1,             ! seda  SUTRA........21900
      1                  PVEC,UVEC,TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR,     SUTRA........22000
@@ -13498,11 +13504,10 @@ C.....SET PARAMETERS FROM MOST RECENT PRESSURE TIME STEP                 SUTRA..
  2500 CNUBM1(I)=CNUB(I)
  2600 CONTINUE                                                           SUTRA........41900
       
-c      open(unit = 95, file='PVECBefZERO.txt')
-c      sPVEC = (SIZEOF(PVEC)/SIZEOF(REAL))
-c      DO 2601 I=1,sPVEC
-c          write(95,*) PVEC(I)
-c2601  CONTINUE
+      DO 2601 I=1,NN
+          EFFSTR1(I)=EFFSTR(I)
+          RUNOD1(I)=RUNOD(I)
+2601  CONTINUE
 C                                                                        SUTRA........42000
 C.....INITIALIZE ARRAYS WITH VALUE OF ZERO                               SUTRA........42100
       MATDIM=NELT*NCBI                                                   SUTRA........42200
@@ -13667,19 +13672,7 @@ C        TIME STEPS YIELDS THE STEADY-STATE PRESSURE.                    SUTRA..
             PM1(I) = PVEC(I)                                             SUTRA........49800
  5200    CONTINUE                                                        SUTRA........49900
       END IF                                                             SUTRA........50000
-C      open (unit = 3, file = "piteroutput.txt")
-C      open (unit = 12, file = "effstress.txt")
-C      DO 5300 I=1,NN
-C      write(3,*),PITER(I)
-C      EFFSTR(I) = -Z(I)*17293-PITER(I)
-C      RUNOD(I)=(PITER(I)+Z(I)*9810)/(-Z(I)*(17293-9810))
-C      print *, "EFFSTRESS at NODE",I,"EQUALS",EFFSTR(I)
-C      EFFSTRC(I)= (-Z(I)*17293-(-Z(I)*9810))/2
-C      IF (EFFSTR(I).LT.EFFSTRC(I)) THEN
-C        write(12,*), Z(I), EFFSTR(I), EFFSTRC(I)
-C      END IF
-C5300  CONTINUE                                                           SUTRA........50100
-
+      
       IF(ML-1) 5500,6000,5500                                            SUTRA........50200
 C                                                                        SUTRA........50300
 C.....SOLVE FOR U                                                        SUTRA........50400
@@ -13795,11 +13788,7 @@ C.....PRINT NODEWISE AND ELEMENTWISE RESULTS TO OUTPUT FILES             SUTRA..
                                                                          SUTRA........59500! SWB addded
       CALL GetGradients(VMAG,VANG1,VANG2,IN,X,Y,Z,PERMXX,PERMYY,PERMZZ,
      1 GGRADX,GGRADY,GGRADZ)
-!        DO 31 IX=1,NE
-!        WRITE(8778,*) "Genx" ,IX," ",GGRADX(IX)," ",GGRADY(IX)," "
-!     1   ,GGRADZ(IX)
-!            !VECTOUT(IX,GGRADX(IX),GGRADY(IX),GGRADZ(IX))
-!   31    CONTINUE
+
       PRNK6 = ((PRNALL.OR.((IT.NE.0).AND.(MOD(IT,LCOLPR).EQ.0))          SUTRA........59600
      1         .OR.(ITREL.EQ.1)).AND.(K6.NE.-1))                         SUTRA........59700
       IF (PRNK6) CALL OUTELE(VMAG,VANG1,VANG2,IN,X,Y,Z,TITLE1,TITLE2,    SUTRA........59800
@@ -13870,7 +13859,8 @@ C.....PRINT NODEWISE AND ELEMENTWISE RESULTS TO OUTPUT FILES             SUTRA..
               GO TO 6789
               END IF
               
- 6789         EFFSTR(I) = (TOTSTR(I)+Z(I)*9810) + (VECTRZV*9810*Z(I))
+ 6789         EFFSTR(I) = (TOTSTR(I)+(Z(I)-WATTAB)*9810)
+     1         + (VECTRZV*9810*Z(I))
               IF(EFFSTR(I).LT.0) THEN
                   EFFSTR(I) = 0.0
               END IF    
@@ -13938,7 +13928,7 @@ C..............IF THE SCHEDULED STEP IS NOT ZERO, PRINT RESULTS.         SUTRA..
                   IF (OFP(NFLO)%FRMT.EQ."OBS") THEN                      SUTRA........64600
                      CALL OUTOBS(NFLO,OBSPTS,TIME,STEP,PM1,UM1,          SUTRA........64700
      1                  PVEC,UVEC,TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR,     SUTRA........64800
-     2                  CNUB,CNUBM1,EFFSTR,RUNOD,TOTSTR)                               !EFFSTR added
+     2                  CNUB,CNUBM1,EFFSTR,RUNOD,TOTSTR,EFFSTR1,RUNOD1)                               !EFFSTR added
                   ELSE                                                   SUTRA........64900
                      CALL OUTOBC(NFLO,OBSPTS,TIME,STEP,PM1,UM1,          SUTRA........65000
      1                  PVEC,UVEC,TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR,     SUTRA........65100
@@ -13964,7 +13954,7 @@ C           HAS NOT ALREADY BEEN PRINTED.                                SUTRA..
                TIME = TSEC                                                 ! seda
                CALL OUTOBS(NFLO,OBSPTS,TIME,DIT,PM1,UM1,PVEC,UVEC,         ! seda  SUTRA........67000
      1   TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR,CNUB,CNUBM1,EFFSTR,RUNOD,
-     2   TOTSTR)                                                        !effStr added                SUTRA........67100
+     2   TOTSTR,EFFSTR1,RUNOD1)                                                        !effStr added                SUTRA........67100
             ELSE                                                         SUTRA........67200
                CALL OUTOBC(NFLO,OBSPTS,TIME,DIT,PM1,UM1,PVEC,UVEC,         ! seda  SUTRA........67300
      1            TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR,CNUB,CNUBM1)                     SUTRA........67400
@@ -13983,12 +13973,6 @@ C        TO NEXT TIME STEP                                               SUTRA..
      4         IIDPBC,IIDUBC,IIDSOP,IIDSOU,SWB)                          SUTRA........68700!SWB added
          IF (ISTOP.EQ.0) GOTO 1000                                       SUTRA........68800
       END IF                                                             SUTRA........68900
-C      open (unit=1, file = "Sfront")
-C      DO 8000 I = 1, NN
-C        IF (SWT.EQ.0.80D0) THEN
-C          write (3,*), X(I), Y(I)
-C        END IF
-C 8000 CONTINUE
 C                                                                        SUTRA........69000
 C ********************************************************************** SUTRA........69100
 C.....END TIME STEP **************************************************** SUTRA........69200
@@ -14126,7 +14110,7 @@ C.....TERMINATION SEQUENCE: DEALLOCATE ARRAYS, CLOSE FILES, AND STOP     TERSEQ.
      1      VOL,POR,CS1,CS2,CS3,SW,SWT,DSWDP,RHO,SOP,QIN,UIN,QUIN,       TERSEQ........2500! SWT added
      2      QINITR,RCIT,RCITM1,GNUP1,GNUU1,SWB,CNUBM1,CNUB,RELK,RELKB,              TERSEQ........2600!SWB added CNUBM1 and CNUB added
      3      RELKT)
-         DEALLOCATE(PVEC,UVEC,RUNOD,EFFSTR,TOTSTR)                                           TERSEQ........2700
+         DEALLOCATE(PVEC,UVEC,RUNOD,EFFSTR,TOTSTR,EFFSTR1,RUNOD1)                                           TERSEQ........2700
          DEALLOCATE(ALMAX,ALMIN,ATMAX,ATMIN,VMAG,VANG1,PERMXX,PERMXY,    TERSEQ........2800
      1      PERMYX,PERMYY,PANGL1)                                        TERSEQ........2900
          DEALLOCATE(ALMID,ATMID,VANG2,PERMXZ,PERMYZ,PERMZX,PERMZY,       TERSEQ........3000
@@ -14315,7 +14299,7 @@ C.....VELOCITY DATA FOR THIS TIME STEP                                   OUTELE.
          GRADY = VECTRY / KY
          GRADZ = VECTRZ / KZ
 !         WRITE(8778,*) "Grads"," ",VMAG(L)," ",GRADX," ",GRADY," ",GRADZ
-       CALL VECTOUT(L,GRADX,GRADY,GRADZ,GGRADX,GGRADY,GGRADZ)
+C       CALL VECTOUT(L,GRADX,GRADY,GRADZ,GGRADX,GGRADY,GGRADZ)
 !      WRITE(8778,*) L, " ",KX," " ,KY," " ,KZ," " ,GRADX," " ,
 !     1 GRADY," " ,GRADZ , " " ,PERMXX(L)," ",PERMYY(L)," ", PERMZZ(L)
 
