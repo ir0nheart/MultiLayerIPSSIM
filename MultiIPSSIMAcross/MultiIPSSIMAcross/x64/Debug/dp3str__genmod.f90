@@ -1,4 +1,6 @@
-        !COMPILER-GENERATED INTERFACE MODULE: Wed Jan 09 01:47:24 2019
+        !COMPILER-GENERATED INTERFACE MODULE: Sat Jan 12 22:06:15 2019
+        ! This source file is for reference only and may not completely
+        ! represent the generated interface used by the compiler.
         MODULE DP3STR__genmod
           INTERFACE 
             FUNCTION DP3STR(DPA)

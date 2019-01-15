@@ -71,11 +71,12 @@ C        AND NENT (POINTER TO NEXT ENTRY).                               LLDEF..
 C                                                                        LLDEF.........1700
       END MODULE LLDEF                                                   LLDEF.........1800
 C                                                                        LLDEF.........1900
-      MODULE GRADS
-      IMPLICIT NONE
-      DOUBLE PRECISION, DIMENSION(:),ALLOCATABLE::
-     1 GGRADX, GGRADY, GGRADZ
-      END MODULE GRADS
+C     MODULE GRADS
+C      IMPLICIT NONE
+C      DOUBLE PRECISION, DIMENSION(:),ALLOCATABLE::
+C     1 GGRADX, GGRADY, GGRADZ
+C      END MODULE GRADS
+      
 C     MODULE            E  X  P  I  N  T           SUTRA VERSION 2.2     EXPINT.........100
 C                                                                        EXPINT.........200
 C *** PURPOSE :                                                          EXPINT.........300

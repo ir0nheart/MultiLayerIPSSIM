@@ -1,8 +1,11 @@
-        !COMPILER-GENERATED INTERFACE MODULE: Wed Jan 09 01:47:24 2019
+        !COMPILER-GENERATED INTERFACE MODULE: Sat Jan 12 22:06:15 2019
+        ! This source file is for reference only and may not completely
+        ! represent the generated interface used by the compiler.
         MODULE OUTOBS__genmod
           INTERFACE 
             SUBROUTINE OUTOBS(NFLO,OBSPTS,TIME,STEP,PM1,UM1,PVEC,UVEC,  &
-     &TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR,CNUB,CNUBM1,EFFSTR,RUNOD,TOTSTR)
+     &TITLE1,TITLE2,IN,LREG,BCSFL,BCSTR,CNUB,CNUBM1,EFFSTR,RUNOD,TOTSTR,&
+     &EFFSTR1,RUNOD1)
               USE ALLARR, ONLY :                                        &
      &          OBSDAT
               COMMON/TIMES/ DELT,TSEC,TMIN,THOUR,TDAY,TWEEK,TMONTH,TYEAR&
@@ -70,6 +73,8 @@
               REAL(KIND=8) :: EFFSTR(NNVEC)
               REAL(KIND=8) :: RUNOD(NNVEC)
               REAL(KIND=8) :: TOTSTR(NNVEC)
+              REAL(KIND=8) :: EFFSTR1(NNVEC)
+              REAL(KIND=8) :: RUNOD1(NNVEC)
             END SUBROUTINE OUTOBS
           END INTERFACE 
         END MODULE OUTOBS__genmod

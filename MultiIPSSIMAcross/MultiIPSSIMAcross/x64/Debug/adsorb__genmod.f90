@@ -1,4 +1,6 @@
-        !COMPILER-GENERATED INTERFACE MODULE: Wed Jan 09 01:47:23 2019
+        !COMPILER-GENERATED INTERFACE MODULE: Sat Jan 12 22:06:14 2019
+        ! This source file is for reference only and may not completely
+        ! represent the generated interface used by the compiler.
         MODULE ADSORB__genmod
           INTERFACE 
             SUBROUTINE ADSORB(CS1,CS2,CS3,SL,SR,U)

@@ -8879,17 +8879,7 @@ C.....VELOCITY DATA FOR THIS TIME STEP                                   OUTELE.
          CVA2 = DCOS(VA2)                                                OUTELE.......24700
          VECTRX=VMAG(L) * DCOS(VA1)*CVA2                                 OUTELE.......24800
          VECTRY=VMAG(L) * DSIN(VA1)*CVA2                                 OUTELE.......24900
-         VECTRZ=VMAG(L) * DSIN(VA2)
-!         WRITE(8778,*) "OUTELE"," ",VMAG(L)," " ,VECTRX
-!         KX =PERMXX(L)*9810000
-!         KY =PERMYY(L)*9810000
-!         KZ =PERMZZ(L)*9810000
-!         GRADX = VECTRX /PERMXX(L)                                            OUTELE.......25000
-!         GRADY = VECTRY / PERMYY(L)
-!         GRADZ = VECTRZ / PERMZZ(L)
-!       CALL VECTOUT(L,GGRADX,GGRADY,GGRADZ,GRADX,GRADY,GRADZ)
-!      WRITE(8778,*) L, " ",KX," " ,KY," " ,KZ," " ,GRADX," " ,
-!     1 GRADY," " ,GRADZ , " " ,PERMXX(L)," ",PERMYY(L)," ", PERMZZ(L)
+         VECTRZ=VMAG(L) * DSIN(VA2)                                      OUTELE.......25000
          VVAR(1) = DBLE(L)                                               OUTELE.......25100
          VVAR(2) = CENTRX                                                OUTELE.......25200
          VVAR(3) = CENTRY                                                OUTELE.......25300
@@ -13786,14 +13776,13 @@ C.....CALCULATE AND PRINT FLUID MASS AND/OR ENERGY OR SOLUTE MASS BUDGET SUTRA..
                                                                          SUTRA........59000
 C.....PRINT NODEWISE AND ELEMENTWISE RESULTS TO OUTPUT FILES             SUTRA........59100
                                                                          SUTRA........59500! SWB addded
-      CALL GetGradients(VMAG,VANG1,VANG2,IN,X,Y,Z,PERMXX,PERMYY,PERMZZ,
-     1 GGRADX,GGRADY,GGRADZ)
-
       PRNK6 = ((PRNALL.OR.((IT.NE.0).AND.(MOD(IT,LCOLPR).EQ.0))          SUTRA........59600
      1         .OR.(ITREL.EQ.1)).AND.(K6.NE.-1))                         SUTRA........59700
       IF (PRNK6) CALL OUTELE(VMAG,VANG1,VANG2,IN,X,Y,Z,TITLE1,TITLE2,    SUTRA........59800
      1   BCSFL,BCSTR)
 
+      CALL GetGradients(VMAG,VANG1,VANG2,IN,X,Y,Z,PERMXX,PERMYY,PERMZZ,
+     1 GGRADX,GGRADY,GGRADZ)
       DO 3541 I=1,NN
            
           IF (Z(I).EQ.0) THEN
@@ -13869,7 +13858,7 @@ C.....PRINT NODEWISE AND ELEMENTWISE RESULTS TO OUTPUT FILES             SUTRA..
      1        .AND.((TOTSTR(I)+9810*Z(I)).LT.(0.001))) THEN
               RUNOD(I)=0.D0
               ELSE
-              RUNOD(I)=EFFSTR(I)/(TOTSTR(I)+Z(I)*9810)
+              RUNOD(I)=EFFSTR(I)/(TOTSTR(I)+(Z(I)-WATTAB)*9810)
               END IF
 
           END IF
@@ -14094,6 +14083,7 @@ C                                                                        TERSEQ.
       USE BCSDEF                                                         TERSEQ.........900
       USE FINDEF                                                         TERSEQ........1000
       USE SCHDEF                                                         TERSEQ........1100
+C      USE GRADS
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)                                TERSEQ........1200
       CHARACTER CDUM*1                                                   TERSEQ........1300
       LOGICAL ALCBCS,ALCFIN,ALCOBS                                       TERSEQ........1400
@@ -14123,6 +14113,7 @@ C.....TERMINATION SEQUENCE: DEALLOCATE ARRAYS, CLOSE FILES, AND STOP     TERSEQ.
          DEALLOCATE(IIDPBC,IIDUBC,IIDSOP,IIDSOU)                         TERSEQ........3610
          DEALLOCATE(BCSFL,BCSTR)                                         TERSEQ........3620
          DEALLOCATE(OBSPTS)                                              TERSEQ........3700
+         DEALLOCATE(GGRADX,GGRADY,GGRADZ)
       END IF                                                             TERSEQ........3800
       IF (ALLO2) THEN                                                    TERSEQ........3900
          DEALLOCATE(PMAT,UMAT,FWK)                                       TERSEQ........4000
@@ -14295,9 +14286,10 @@ C.....VELOCITY DATA FOR THIS TIME STEP                                   OUTELE.
          KX =PERMXX(L)*9810000/1.002
          KY =PERMYY(L)*9810000/1.002
          KZ =PERMZZ(L)*9810000/1.002
-         GRADX = VECTRX / KX                                            OUTELE.......25000
-         GRADY = VECTRY / KY
-         GRADZ = VECTRZ / KZ
+         GGRADX(L) = VECTRX / KX                                            OUTELE.......25000
+         GGRADY(L) = VECTRY / KY
+         GGRADZ(L) = VECTRZ / KZ
+         
 !         WRITE(8778,*) "Grads"," ",VMAG(L)," ",GRADX," ",GRADY," ",GRADZ
 C       CALL VECTOUT(L,GRADX,GRADY,GRADZ,GGRADX,GGRADY,GGRADZ)
 !      WRITE(8778,*) L, " ",KX," " ,KY," " ,KZ," " ,GRADX," " ,

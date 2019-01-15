@@ -1,4 +1,6 @@
-        !COMPILER-GENERATED INTERFACE MODULE: Wed Jan 09 01:47:25 2019
+        !COMPILER-GENERATED INTERFACE MODULE: Sat Jan 12 22:06:16 2019
+        ! This source file is for reference only and may not completely
+        ! represent the generated interface used by the compiler.
         MODULE INDAT2__genmod
           INTERFACE 
             SUBROUTINE INDAT2(PVEC,UVEC,PM1,UM1,UM2,CS1,CS2,CS3,SL,SR,  &

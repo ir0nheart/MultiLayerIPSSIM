@@ -1,4 +1,6 @@
-        !COMPILER-GENERATED INTERFACE MODULE: Wed Jan 09 01:47:25 2019
+        !COMPILER-GENERATED INTERFACE MODULE: Sat Jan 12 22:06:16 2019
+        ! This source file is for reference only and may not completely
+        ! represent the generated interface used by the compiler.
         MODULE SUTRA__genmod
           INTERFACE 
             SUBROUTINE SUTRA(TITLE1,TITLE2,PMAT,UMAT,PITER,UITER,PM1,   &
@@ -11,7 +13,7 @@
      &IBCUBC,IBCSOP,IBCSOU,IIDPBC,IIDUBC,IIDSOP,IIDSOU,IQSOPT,IQSOUT,   &
      &IPBCT,IUBCT,BCSFL,BCSTR,CNUB,CNUBM1,SWB,RELK,TT1,TT2,TT3,TT4,TT5, &
      &TT6,TT7,TT8,TT9,GGRADX,GGRADY,GGRADZ,UWSOIL,TOPLAYER,BOTTOMLAYER, &
-     &TOTSTR,ADDTOTSTR)
+     &TOTSTR,ADDTOTSTR,WATTAB,EFFSTR1,RUNOD1)
               USE ALLARR, ONLY :                                        &
      &          OBSDAT,                                                 &
      &          CIDBCS
@@ -191,6 +193,9 @@
               REAL(KIND=8) :: BOTTOMLAYER(NLAYER)
               REAL(KIND=8) :: TOTSTR(NN)
               REAL(KIND=8) :: ADDTOTSTR
+              REAL(KIND=8) :: WATTAB
+              REAL(KIND=8) :: EFFSTR1(NN)
+              REAL(KIND=8) :: RUNOD1(NN)
             END SUBROUTINE SUTRA
           END INTERFACE 
         END MODULE SUTRA__genmod

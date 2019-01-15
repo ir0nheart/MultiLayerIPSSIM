@@ -1,4 +1,6 @@
-        !COMPILER-GENERATED INTERFACE MODULE: Wed Jan 09 01:47:23 2019
+        !COMPILER-GENERATED INTERFACE MODULE: Sat Jan 12 22:06:15 2019
+        ! This source file is for reference only and may not completely
+        ! represent the generated interface used by the compiler.
         MODULE TENSYM__genmod
           INTERFACE 
             SUBROUTINE TENSYM(T11,T22,T33,Q11,Q12,Q13,Q21,Q22,Q23,Q31,  &
